@@ -18,9 +18,12 @@ steps:
   condition: contains(variables.imageName, 'mac')
   displayName: 'Install Azure DevOps extension'
 
+- bash: az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project=$(System.TeamProject) --use-git-aliases true
+  displayName: 'Set default Azure DevOps organization and project'
+
 # Azure DevOps CLI extension call that does not require login or credentials
 # since it configures the local environment
-- bash: az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project=$(System.TeamProject) --use-git-aliases true
+- bash: az devops configure --defaults organization=https://dev.azure.com/shivath/
   displayName: 'Set default Azure DevOps organization and project'
 
 # Call that does require credentials, use the System.AccessToken PAT

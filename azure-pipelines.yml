@@ -9,7 +9,7 @@ trigger:
 jobs:
 - job: GetToken
   steps:
-    - bash: |
+  - bash: |
         get_Token() {
           curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' \
           https://login.microsoftonline.com/a48559b2-7a99-486c-813b-8e001def6ed5/oauth2/v2.0/token \
@@ -19,14 +19,9 @@ jobs:
           -d 'client_secret=4xP8Q~_Fq6gaHqUQWZ8lWdnAdwEbk.TOlmLXpb~p' --silent \
           | tr "," "\n" | grep access_token | tr -d '"' | tr ":" "\n" | tail -1
         }
-        echo "##vso[task.setvariable variable=myToken;isOutput=true]$(get_Token)"
+        echo "##vso[task.setvariable variable=myToken]$(get_Token)"
       name: api_token
-- job: B
-  dependsOn: GetToken
-  variables:
-    myTokem: $[ dependencies.A.outputs['api_token.myOutputVar'] ]  
-  steps:
-  - bash: echo $(myTokem)
+  - bash: |
+     echo $(myToken) 
 
-     
-
+  

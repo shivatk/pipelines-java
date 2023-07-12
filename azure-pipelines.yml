@@ -20,6 +20,5 @@ jobs:
           | tr "," "\n" | grep access_token | tr -d '"' | tr ":" "\n" | tail -1
         }
         echo "##vso[task.setvariable variable=myToken]$(get_Token)"
-      name: api_token
   - bash: |
      echo $(myToken)

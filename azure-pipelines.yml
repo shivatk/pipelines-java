@@ -6,19 +6,13 @@
 trigger:
 - main
 
-jobs:
+variables:
+- name: one
+  value: none 
 
-- job: get_token
-  pool: 
-    vmImage: ubuntu-latest
-  steps:
-    # Get Acces Token
-    - bash: |
-        az login --service-principal -u "181aded9-0234-4302-b731-935d818fc2a4" -p "4xP8Q~_Fq6gaHqUQWZ8lWdnAdwEbk.TOlmLXpb~p" --tenant "a48559b2-7a99-486c-813b-8e001def6ed5"
-        $token = az account get-access-token --resource "181aded9-0234-4302-b731-935d818fc2a4" --query accessToken
-        $myMessage="Hello World"
-        echo "##vso[task.setvariable variable=message]$token";
-      displayName: 'Get Access Token'
-
-    - bash: echo my acccess token is $(token)
-
+steps:
+  - script: |
+      az login --service-principal -u "181aded9-0234-4302-b731-935d818fc2a4" -p "4xP8Q~_Fq6gaHqUQWZ8lWdnAdwEbk.TOlmLXpb~p" --tenant "a48559b2-7a99-486c-813b-8e001def6ed5"
+      $token = az account get-access-token --resource "181aded9-0234-4302-b731-935d818fc2a4" --query accessToken
+      echo $token
+    

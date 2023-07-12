@@ -6,13 +6,9 @@
 trigger:
 - main
 
-variables:
-- name: one
-  value: none 
 
 steps:
-  - script: |
-      az login --service-principal -u "181aded9-0234-4302-b731-935d818fc2a4" -p "4xP8Q~_Fq6gaHqUQWZ8lWdnAdwEbk.TOlmLXpb~p" --tenant "a48559b2-7a99-486c-813b-8e001def6ed5"
-      $toen = az account get-access-token --resource "181aded9-0234-4302-b731-935d818fc2a4" --query accessToken
-      echo $toen
-    
+- bash : $a = az login --service-principal -u 181aded9-0234-4302-b731-935d818fc2a4 -p 4xP8Q~_Fq6gaHqUQWZ8lWdnAdwEbk.TOlmLXpb~p --tenant a48559b2-7a99-486c-813b-8e001def6ed5
+  name: setvarStep
+- script: echo $(setvarStep.myOutputVar)
+  name: echovar

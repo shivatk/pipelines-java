@@ -8,7 +8,7 @@ trigger:
 
 jobs:
 
-- job: Get Token
+- job: get_token
   pool: 
     vmImage: ubuntu-latest
   steps:

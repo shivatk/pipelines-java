@@ -12,25 +12,9 @@ pool:
 steps:
 - bash: az --version
   displayName: 'Show Azure CLI version'
-
-# Install Azure DevOps CLI extension only on macOS images
-- bash: az extension add -n azure-devops
-  condition: contains(variables.imageName, 'mac')
-  displayName: 'Install Azure DevOps extension'
-
-- bash: az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project=$(System.TeamProject) --use-git-aliases true
-  displayName: 'Set default Azure DevOps organization and project'
-
-# Azure DevOps CLI extension call that does not require login or credentials
-# since it configures the local environment
-- bash: az devops configure --defaults organization=https://dev.azure.com/shivath/
-  displayName: 'Set default Azure DevOps organization and project'
-
-# Call that does require credentials, use the System.AccessToken PAT
-# and assign to AZURE_DEVOPS_EXT_PAT which is known to Azure DevOps CLI extension
-- bash: |
-    az pipelines build list
-    git pr list
-  env:
-    AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
-  displayName: 'Show build list and PRs'
+  
+# Get Acces Token
+- bash: echo "##vso[task.setvariable variable=sauce]az account get-access-token --query 'accessToken'"
+- task: Get Access Token  # this step generates the output variable
+  name: token  # because we're going to depend on it, we need to name the step
+- script: echo $(ProduceVar.MyVar) # this step uses the output variable
